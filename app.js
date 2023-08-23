@@ -2,8 +2,12 @@
 
 const express = require('express');
 const itemRoutes = require('./items.js');
+const ExpressError = require("./expressError.js")
 const db = require('./fakeDb.js');
 const app = express();
+//enable JSON requests
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
 app.use('/items', itemRoutes);
 
@@ -29,14 +33,3 @@ app.use(function(err, req, res, next) {
 app.listen(3000, function(){
   console.log('App on port 3000');
 })
-
-
-//ExpressError recomended by example
-class ExpressError extends Error {
-  constructor(message, status) {
-    super();
-    this.message = message;
-    this.status = status;
-    console.error(this.stack);
-  }
-}
